@@ -10,5 +10,4 @@ def sum_mixed_list(mxd_lst: List[Union[int, float]]) -> float:
     """
     ADD UP A LIST OF FLOATS AND INTEGERS
     """
-    return reduce(lambda a, b : a + b, mxd_lst)
-    
+    return reduce(lambda a, b: a + b, mxd_lst)
