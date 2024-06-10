@@ -6,10 +6,10 @@ from random import uniform
 import asyncio
 
 
-async def wait_random(max_delay=10.0):
+async def wait_random(max_delay: int =10) -> float:
     """
     Async function
     """
-    n = uniform(0.0, max_delay)
+    n: int = uniform(0.0, max_delay)
     await asyncio.sleep(n)
     return n
