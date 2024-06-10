@@ -1,24 +1,18 @@
 #!/usr/bin/env python3
-"""
-PYTHON ASYNC
-"""
+'''Task 4's module.
+'''
 import asyncio
-from typing import Any
-
-wait_random = __import__('0-basic_async_syntax').wait_random
+from typing import List
 
 
-def task_wait_random(max_delay: int) -> asyncio.Task:
-    """
-    Creates an asyncio task for the wait_random
-    coroutine with a given max_delay.
+task_wait_random = __import__('3-tasks').task_wait_random
 
-    Args:
-        max_delay (int): The maximum delay for the wait_random coroutine.
 
-    Returns:
-        asyncio.Task: An asyncio task object for the wait_random coroutine.
-    """
-    loop = asyncio.get_event_loop()
-    task = loop.create_task(wait_random(max_delay))
-    return task
+async def task_wait_n(n: int, max_delay: int) -> List[float]:
+    '''Executes task_wait_random n times.
+    '''
+    wait_times = await asyncio.gather(
+        *tuple(map(lambda _: task_wait_random(max_delay), range(n)))
+    )
+    return sorted(wait_times)
+
