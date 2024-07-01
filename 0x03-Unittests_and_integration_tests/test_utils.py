@@ -48,7 +48,7 @@ class TestGetJson(unittest.TestCase):
         ("http://example.com", {"payload": True}),
         ("http://holberton.io", {"payload": False})
     ])
-    @patch("utils.requests.get")  # Ensure the patch target is correct
+    @patch("utils.requests.get")
     def test_get_json(self, test_url, expected_payload, mock_request):
         """
         Tests the get_json Method
