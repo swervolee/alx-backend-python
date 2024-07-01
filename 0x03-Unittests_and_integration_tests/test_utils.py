@@ -22,3 +22,16 @@ class TestAccessNestedMap(unittest.TestCase):
         paramerized parameters.
         """
         self.assertEqual(nmp(seq, path), expectation)
+
+    @parameterized.expand([
+        ({}, ("a",)),
+        ({"a": 1}, ("a", "b")),
+        ])
+
+    def test_access_nested_map_exception(self, seq, path):
+        """
+        Tests the access_nested_map error raiseing
+        in case of wrong key
+        """
+        with self.assertRaises(KeyError):
+            nmp(seq, path)
