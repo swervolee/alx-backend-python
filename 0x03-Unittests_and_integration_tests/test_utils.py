@@ -5,7 +5,7 @@ unittests
 import unittest
 from parameterized import parameterized
 from utils import access_nested_map as nmp
-from utils import get_json
+from utils import get_json, memoize
 from unittest.mock import patch, Mock
 import requests
 
@@ -30,7 +30,6 @@ class TestAccessNestedMap(unittest.TestCase):
         ({}, ("a",)),
         ({"a": 1}, ("a", "b")),
         ])
-
     def test_access_nested_map_exception(self, seq, path):
         """
         Tests the access_nested_map error raiseing
@@ -59,7 +58,41 @@ class TestGetJson(unittest.TestCase):
         mock_request.return_value = mock_response
 
         result = get_json(test_url)
-        
         mock_request.assert_called_once_with(test_url)
-        
         self.assertEqual(result, expected_payload)
+
+
+class TestMemoize(unittest.TestCase):
+    """
+    Tests memoize method
+    """
+    def test_memoize(self):
+        """
+        tests the caching property of the
+        memoize function
+        """
+        class TestClass:
+            """
+            Test class
+            """
+            def a_method(self):
+                return 42
+
+            @memoize
+            def a_property(self):
+                """
+                Memoized method
+                """
+                return self.a_method()
+
+        with patch.object(TestClass, "a_method",
+                          return_value=42) as mock_method:
+            obj = TestClass()
+
+            result1 = obj.a_property
+            result2 = obj.a_property
+
+            mock_method.assert_called_once()
+
+            self.assertEqual(result1, 42)
+            self.assertEqual(result2, 42)
